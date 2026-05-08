@@ -1,0 +1,44 @@
+NOTICES
+=======
+
+Nullroute bundles the ClearURLs Rules database (data.min.json).
+
+-------------------------------------------------------------------------------
+ClearURLs Rules
+-------------------------------------------------------------------------------
+
+  Source:   https://github.com/ClearURLs/Rules
+  License:  GNU Lesser General Public License v3.0 (LGPL-3.0)
+            https://www.gnu.org/licenses/lgpl-3.0.html
+  Authors:  ClearURLs Contributors
+  Project:  https://clearurls.xyz
+
+The ClearURLs rules file (data.min.json) is used unmodified in accordance with
+the LGPL-3.0 license. Users may replace this file at any time with an updated
+or modified version. The canonical update source is:
+
+  https://rules2.clearurls.xyz/data.minify.json
+
+Nullroute is not affiliated with or endorsed by the ClearURLs project.
+
+-------------------------------------------------------------------------------
+URLClean (concept credit)
+-------------------------------------------------------------------------------
+
+  The URLClean shortcut by Federico Viticci (MacStories) provided early
+  reference for URL parameter cleaning approaches on macOS.
+  https://www.macstories.net
+
+-------------------------------------------------------------------------------
+TrackerZapper (prior art acknowledgement)
+-------------------------------------------------------------------------------
+
+  TrackerZapper by Robb Knight is an open source macOS menubar utility that
+  inspired the clipboard-monitoring approach used by Nullroute.
+  https://github.com/rknightuk/TrackerZapper
+  MIT License
+
+-------------------------------------------------------------------------------
+
+Nullroute itself (nullroute.py and associated scripts) is licensed under the
+MIT License. See LICENSE for full terms.

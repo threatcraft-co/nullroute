@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <key>Label</key>
+    <string>com.threatcraft.nullroute</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__PYTHON__</string>
+        <string>__INSTALL_DIR__/nullroute.py</string>
+    </array>
+
+    <!-- Start immediately when the user logs in -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Restart automatically if the process exits unexpectedly -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Stdout and stderr go to the user log directory -->
+    <key>StandardOutPath</key>
+    <string>__LOG_DIR__/nullroute.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>__LOG_DIR__/nullroute.error.log</string>
+
+    <!-- Low scheduling priority — this is a background utility -->
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>Nice</key>
+    <integer>10</integer>
+
+</dict>
+</plist>

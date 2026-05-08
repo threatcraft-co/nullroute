@@ -1,6 +1,7 @@
 MIT License
 
-Copyright (c) 2026 Threatcraft Co.
+Copyright (c) 2025 Threatcraft (Isabella San Lorenzo)
+https://threatcraft.co
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +20,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+The file data.min.json bundled with this software is sourced from the
+ClearURLs Rules project and is licensed separately under the
+GNU Lesser General Public License v3.0 (LGPL-3.0).
+
+See NOTICES for full attribution and license terms.
