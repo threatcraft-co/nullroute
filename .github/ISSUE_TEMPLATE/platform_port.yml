@@ -1,0 +1,42 @@
+name: Platform port
+description: Help bring Nullroute to Linux or Windows
+labels: [platform-port]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Linux and Windows ports are planned. If you want to take one on, start here.
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Which platform?
+      options:
+        - Linux
+        - Windows
+    validations:
+      required: true
+
+  - type: textarea
+    id: approach
+    attributes:
+      label: Proposed approach
+      description: |
+        For Linux: clipboard tool (xclip / wl-clipboard / xdotool), startup method (systemd user service / autostart).
+        For Windows: clipboard access method, startup method (Task Scheduler / registry run key).
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Design constraints
+      description: Please confirm your implementation will respect these.
+      options:
+        - label: Zero runtime dependencies beyond what ships with the OS or a standard Python install
+          required: true
+        - label: No network calls in the daemon
+          required: true
+        - label: Headless — no UI, no tray icon required
+          required: true

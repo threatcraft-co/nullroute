@@ -12,7 +12,7 @@ Unlike browser extensions such as ClearURLs, Nullroute operates at the **operati
 
 Nullroute runs as a background daemon that starts at login. It polls your clipboard every 500ms. When it detects a URL, it applies the [ClearURLs](https://github.com/ClearURLs/Rules) rules database to strip tracking parameters, then silently writes the cleaned URL back. If nothing was stripped, your clipboard is untouched.
 
-**It never makes network calls.** The rules are bundled locally at install time. The daemon has no network access and no external dependencies.
+**It never makes network calls.** The rules are bundled locally at install time. The daemon verifies the integrity of the rules file on every startup. No network access. No external dependencies.
 
 ---
 
@@ -28,26 +28,31 @@ Nullroute runs as a background daemon that starts at login. It polls your clipbo
 ```bash
 git clone https://github.com/threatcraft-co/nullroute.git
 cd nullroute
-bash install.sh
+bash platform/macos/install.sh
 ```
 
 Nullroute installs to `~/.nullroute/` and registers a LaunchAgent at `~/Library/LaunchAgents/com.threatcraft.nullroute.plist`. It will start immediately and restart automatically at every login.
 
-### Optional: strip affiliate/referral parameters
-
-By default, Nullroute strips tracking parameters only. Referral and affiliate tags (such as Amazon's `tag=`) are kept. To strip those too:
+### Optional flags
 
 ```bash
-bash install.sh --strip-referral
+# Also strip affiliate/referral parameters (e.g. Amazon tag=)
+bash platform/macos/install.sh --strip-referral
+
+# Disable all file logging
+bash platform/macos/install.sh --no-log
+
+# Log full URLs for debugging (default: domain+path only)
+bash platform/macos/install.sh --verbose
 ```
 
 ### Uninstall
 
 ```bash
-bash uninstall.sh
+bash platform/macos/uninstall.sh
 ```
 
-This stops the daemon, removes the LaunchAgent, and cleans up the install directory. Logs are removed at your option.
+Stops the daemon, removes the LaunchAgent, and cleans up the install directory. Logs are removed at your option.
 
 ### Update rules
 
@@ -64,9 +69,11 @@ This is the **only** time Nullroute touches the network, and only when you expli
 ## Logs
 
 ```
-~/Library/Logs/nullroute/nullroute.log       # stripped URL pairs
+~/Library/Logs/nullroute/nullroute.log       # stripped URL events (domain+path only)
 ~/Library/Logs/nullroute/nullroute.error.log # errors
 ```
+
+Query parameters are never written to logs by default. See `SECURITY.md` for details.
 
 ---
 
@@ -83,11 +90,13 @@ This is the **only** time Nullroute touches the network, and only when you expli
 ## Security and privacy
 
 - **Zero network calls** during normal operation. The daemon has no network access.
-- **No dependencies** beyond Python 3 and standard library. Nothing is installed via pip.
-- **Fully auditable.** The daemon is a single ~160-line Python file.
-- **Local rules only.** `data.min.json` is bundled at install time and only updated when you explicitly run `update-rules.sh`.
+- **Integrity verified at startup.** The rules file is SHA-256 checked against a hash stored at install time. The daemon refuses to start if the file has been modified.
+- **ReDoS protected.** All regex operations are guarded with a hard 1-second timeout.
+- **No dependencies** beyond Python 3 and standard library. Nothing installed via pip.
+- **Fully auditable.** The daemon is a single Python file. Read it: [`nullroute.py`](nullroute.py)
 - **Clipboard only.** Nullroute reads and writes your clipboard. It touches nothing else.
-- Source is open. Read it: [`nullroute.py`](nullroute.py)
+
+See [`SECURITY.md`](SECURITY.md) for the full threat model, known limitations, and vulnerability reporting.
 
 ---
 
@@ -95,13 +104,15 @@ This is the **only** time Nullroute touches the network, and only when you expli
 
 Tracking rules are sourced from the [ClearURLs Rules](https://github.com/ClearURLs/Rules) project and bundled as `data.min.json`. ClearURLs rules are licensed under **LGPL-3.0**. See [NOTICES](NOTICES) for full attribution.
 
-Nullroute is not affiliated with ClearURLs. ClearURLs is a browser extension; Nullroute is an OS-level daemon. They are independent tools that happen to share the same rules database.
+Nullroute is not affiliated with ClearURLs. ClearURLs is a browser extension; Nullroute is an OS-level daemon. They are independent tools that share the same rules database.
 
 ---
 
 ## Contributing
 
-Issues and pull requests welcome. If you want to suggest additional rules, please open an issue upstream at [ClearURLs/Rules](https://github.com/ClearURLs/Rules) — that way the fix benefits every tool that uses the database.
+Issues and pull requests are welcome. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening a PR.
+
+To suggest new tracking parameters, open an issue upstream at [ClearURLs/Rules](https://github.com/ClearURLs/Rules) — that way the fix benefits every tool using the database.
 
 ---
 
