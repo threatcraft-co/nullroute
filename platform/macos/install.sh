@@ -74,7 +74,7 @@ if [[ "$(uname)" != "Darwin" ]]; then
 fi
 
 # Rules file
-if [[ ! -f "$SCRIPT_DIR/data.min.json" ]]; then
+if [[ ! -f "$SCRIPT_DIR/../../data.min.json" ]]; then
     error "data.min.json not found in $SCRIPT_DIR"
     error "Please ensure data.min.json is present alongside install.sh."
     exit 1
@@ -91,8 +91,8 @@ mkdir -p "$INSTALL_DIR"
 success "Created $INSTALL_DIR"
 
 # Copy daemon and rules
-cp "$SCRIPT_DIR/nullroute.py" "$INSTALL_DIR/nullroute.py"
-cp "$SCRIPT_DIR/data.min.json" "$INSTALL_DIR/data.min.json"
+cp "$SCRIPT_DIR/../../nullroute.py" "$INSTALL_DIR/nullroute.py"
+cp "$SCRIPT_DIR/../../data.min.json" "$INSTALL_DIR/data.min.json"
 chmod 755 "$INSTALL_DIR/nullroute.py"
 success "Copied nullroute.py and data.min.json to $INSTALL_DIR"
 
