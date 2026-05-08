@@ -2,6 +2,8 @@
 
 ![ci](https://github.com/threatcraft-co/nullroute/actions/workflows/ci.yml/badge.svg)
 
+> Before use, please consider reading [`DEVELOPMENT_TRANSPARENCY.md`](DEVELOPMENT_TRANSPARENCY.md) for full disclosure on how this tool was produced and what that means for how you should evaluate it.
+
 **Browser-agnostic, OS-level URL tracking parameter stripper.**
 
 Every URL you copy carries metadata about you — where you came from, what you clicked, who sent you. Nullroute kills it before it ever leaves your clipboard. Silent. Local. Always on.
