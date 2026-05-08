@@ -1,4 +1,46 @@
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Linux
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Rule backups
+data.min.json.bak
+
+# Local config overrides
+*.local
+
+# Meta/internal
+gitignore
+scaffold.sh
+
+# Test artifacts
 .coverage
 .pytest_cache/
