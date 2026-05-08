@@ -2,8 +2,17 @@
 # Nullroute — update ClearURLs rules
 # https://github.com/threatcraft-co/nullroute
 #
-# Fetches a fresh copy of the ClearURLs rules file from the official source
-# and verifies the SHA256 hash before replacing the local copy.
+# Fetches a fresh copy of the ClearURLs rules from the official source,
+# verifies the SHA-256 hash, and replaces the local copy.
+#
+# IMPORTANT — trust model limitation:
+# Both the rules file and the hash file are served from the same origin
+# (rules2.clearurls.xyz). A compromised server could serve a malicious
+# rules file alongside a matching forged hash, and this script would
+# accept it. There is currently no independent trust anchor for the
+# ClearURLs rules. If this is a concern, verify the hash manually against
+# the ClearURLs GitLab repository before running this script:
+#   https://github.com/ClearURLs/Rules
 #
 # This is the ONLY time Nullroute touches the network, and only when you
 # explicitly run this script. The daemon itself never makes network calls.
@@ -62,15 +71,27 @@ fi
 
 success "Hash verified: $ACTUAL_HASH"
 
+# Check if rules actually changed before replacing
+CURRENT_HASH=$(shasum -a 256 "$INSTALL_DIR/data.min.json" | awk '{print $1}')
+if [[ "$ACTUAL_HASH" == "$CURRENT_HASH" ]]; then
+    success "Rules are already up to date — no changes needed"
+    rm -f "$TMP_RULES" "$TMP_HASH"
+    exit 0
+fi
+
 # Back up existing rules
 cp "$INSTALL_DIR/data.min.json" "$INSTALL_DIR/data.min.json.bak"
 info "Backed up existing rules to data.min.json.bak"
 
-# Replace
+# Replace rules file, preserving restricted permissions
 mv "$TMP_RULES" "$INSTALL_DIR/data.min.json"
+chmod 600 "$INSTALL_DIR/data.min.json"
 rm -f "$TMP_HASH"
 
-success "Rules updated at $INSTALL_DIR/data.min.json"
+# Update stored integrity hash
+echo "$ACTUAL_HASH" > "$INSTALL_DIR/data.min.json.sha256"
+chmod 600 "$INSTALL_DIR/data.min.json.sha256"
+success "Rules and integrity hash updated"
 
 # Restart daemon to pick up new rules
 info "Restarting Nullroute..."
