@@ -58,7 +58,7 @@ if ! curl -fsSL "$HASH_URL" -o "$TMP_HASH"; then
 fi
 
 # Verify hash
-EXPECTED_HASH=$(cat "$TMP_HASH" | tr '[:upper:]' '[:lower:]' | awk '{print $1}')
+EXPECTED_HASH=$(tr '[:upper:]' '[:lower:]' < "$TMP_HASH" | awk '{print $1}')
 ACTUAL_HASH=$(shasum -a 256 "$TMP_RULES" | awk '{print $1}')
 
 if [[ "$EXPECTED_HASH" != "$ACTUAL_HASH" ]]; then
